@@ -26,7 +26,19 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'com.android.support:appcompat-v7:28.0.0'
-    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
+    implementation deps.kotlin.stdlib
+    implementation deps.android.support.v7.cardView
+    implementation deps.android.support.v7.gridLayout
+    implementation deps.android.support.v7.recyclerView
+    implementation deps.android.support.v7.appcompat
+    implementation deps.android.support.annotations
+    implementation deps.android.support.design
+    implementation deps.android.arch.extensions
+    implementation deps.android.arch.runtime
+    implementation deps.android.arch.compiler
+    implementation deps.android.support.constraintLayout
+    implementation deps.glide.runtime
+    kapt deps.glide.compiler
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
