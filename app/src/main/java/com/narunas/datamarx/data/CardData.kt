@@ -13,7 +13,4 @@ data class CardData(var timestamp: Long) {
     @SerializedName("contentUrl")
     var mainUrl: String = ""
 
-
-
-
 }

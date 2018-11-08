@@ -27,7 +27,19 @@ class DetailsModel: ViewModel() {
         Food,
         Sailing,
         Car,
-        Sports
+        Sports,
+        NBA,
+        Drones,
+        Art,
+        Cats,
+        Dogs,
+        Skiing,
+        Tropics,
+        Underwater,
+        Beach,
+        Pets,
+        Soccer,
+        Football
     }
 
     companion object {
@@ -39,7 +51,6 @@ class DetailsModel: ViewModel() {
     fun buildContent() {
 
         thread {
-
 
 
             val data = ArrayList<SectionData>()
@@ -89,7 +100,6 @@ class DetailsModel: ViewModel() {
                 section?.title = searchTerm
 
                 it.close()
-
 
             }
 

@@ -9,6 +9,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.narunas.datamarx.R
 
 class BaseImageView: ImageView {
+
     constructor(context: Context?) : super(context)
     constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs)
     constructor(context: Context?, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr)

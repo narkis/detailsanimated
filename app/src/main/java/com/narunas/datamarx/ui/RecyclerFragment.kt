@@ -33,6 +33,12 @@ class RecyclerFragment: Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        index = arguments!!.getInt("index")
+        section = ContentData.value!!.get(index)
+        mAdapter = Adapter()
+        mAdapter.setData(section.cards)
+
+
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -41,10 +47,7 @@ class RecyclerFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        index = arguments!!.getInt("index")
-        section = ContentData.value!!.get(index)
-        mAdapter = Adapter()
-        mAdapter.setData(section.cards)
+
         view.recycler.layoutManager = layoutManager
         view.recycler.adapter = mAdapter
         section_title.text = section.title
