@@ -35,10 +35,14 @@ class Adapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         if(holder is DatamarxViewholder) {
 
             val card = dataSet[position]
-            holder.subTite.text = card.sub_title
             holder.title.text = card.title
-            holder.image.imageSource(card.url)
+            holder.image.imageSource(card.thumbUrl)
 
+            holder.itemView.setOnClickListener {
+                it?.let {
+
+                }
+            }
         }
 
     }

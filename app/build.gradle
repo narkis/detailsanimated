@@ -13,6 +13,12 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                includeCompileClasspath false
+            }
+        }
     }
     buildTypes {
         release {
@@ -38,6 +44,7 @@ dependencies {
     implementation deps.android.arch.compiler
     implementation deps.android.support.constraintLayout
     implementation deps.glide.runtime
+    implementation deps.gson
     kapt deps.glide.compiler
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'

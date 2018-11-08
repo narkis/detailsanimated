@@ -1,8 +1,13 @@
 package com.narunas.datamarx.data
 
-data class SectionData(var title: String) {
+import com.google.gson.annotations.SerializedName
+
+data class SectionData(var title: String?) {
 
     var index: Int = -1
-    var cards =  ArrayList<CardData>()
+
+    @SerializedName("value")
+    var cards = arrayListOf(CardData(System.currentTimeMillis()))
+
 
 }
