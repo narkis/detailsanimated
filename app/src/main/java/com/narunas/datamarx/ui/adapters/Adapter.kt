@@ -3,9 +3,8 @@ package com.narunas.datamarx.ui.adapters
 import android.content.Intent
 import android.support.v4.app.ActivityCompat
 import android.support.v4.app.ActivityOptionsCompat
-import android.support.v4.util.Pair
+import android.support.v4.util.Pair as UtilPair
 import android.support.v7.widget.RecyclerView
-import android.telecom.Call
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -44,17 +43,18 @@ class Adapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
             val card = dataSet[position]
             holder.title.text = card.title
-            holder.image.imageSource(card.mainUrl, true)
+            holder.image.imageSource(card.thumbUrl, true)
 
             holder.itemView.setOnClickListener {
                 it?.let {
                     CardInDetail.postValue(card)
                     val intent = Intent(holder.itemView.context, DetailsActivity::class.java)
+
                     val options = ActivityOptionsCompat.makeSceneTransitionAnimation(
                         holder.itemView.context as MainActivity,
-                        Pair<View, String>(holder.image,
+                        UtilPair<View, String>(holder.image,
                             DetailsActivity.MAIN_IMAGE_TRANSITION),
-                        Pair<View, String>(holder.title,
+                        UtilPair<View, String>(holder.title,
                             DetailsActivity.MAIN_TITLE_TRANSITION)
                     )
 

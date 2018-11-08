@@ -4,10 +4,16 @@ import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v4.view.animation.LinearOutSlowInInterpolator
+import android.transition.Explode
+import android.view.Window
+import android.view.animation.BounceInterpolator
+import android.view.animation.OvershootInterpolator
 import com.narunas.datamarx.data.DetailsModel
 import com.narunas.datamarx.data.DetailsModel.Companion.ContentData
 import com.narunas.datamarx.data.SectionData
 import com.narunas.datamarx.ui.RecyclerFragment
+import com.narunas.datamarx.ui.anim.Bounce
 
 class MainActivity : AppCompatActivity() {
 
@@ -21,6 +27,17 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        with(window) {
+            requestFeature(Window.FEATURE_CONTENT_TRANSITIONS)
+
+            // set an exit transition
+            exitTransition = Explode()
+            exitTransition.interpolator = Bounce()
+            exitTransition.duration = 500L
+
+        }
+
         setContentView(R.layout.activity_main)
 
 
