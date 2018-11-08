@@ -20,16 +20,25 @@ class BaseImageView: ImageView {
 
     }
 
-    fun imageSource(path: String){
+    fun imageSource(path: String, fade: Boolean){
 
         val options = RequestOptions()
             .centerCrop()
             .error(R.drawable.ic_launcher_foreground)
 
-        Glide.with(context)
-            .load(path)
-            .transition(DrawableTransitionOptions.withCrossFade())
-            .apply(options)
-            .into(this)
+        if(fade) {
+            Glide.with(context)
+                .load(path)
+                .transition(DrawableTransitionOptions.withCrossFade())
+                .apply(options)
+                .into(this)
+
+        } else {
+
+            Glide.with(context)
+                .load(path)
+                .apply(options)
+                .into(this)
+        }
     }
 }

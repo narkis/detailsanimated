@@ -1,12 +1,20 @@
 package com.narunas.datamarx.ui.adapters
 
+import android.content.Intent
+import android.support.v4.app.ActivityCompat
+import android.support.v4.app.ActivityOptionsCompat
+import android.support.v4.util.Pair
 import android.support.v7.widget.RecyclerView
+import android.telecom.Call
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import com.narunas.datamarx.DetailsActivity
+import com.narunas.datamarx.MainActivity
 import com.narunas.datamarx.R
 import com.narunas.datamarx.data.CardData
+import com.narunas.datamarx.data.DetailsModel.Companion.CardInDetail
 import com.narunas.datamarx.ui.BaseImageView
 
 class Adapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -36,10 +44,21 @@ class Adapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
             val card = dataSet[position]
             holder.title.text = card.title
-            holder.image.imageSource(card.thumbUrl)
+            holder.image.imageSource(card.mainUrl, true)
 
             holder.itemView.setOnClickListener {
                 it?.let {
+                    CardInDetail.postValue(card)
+                    val intent = Intent(holder.itemView.context, DetailsActivity::class.java)
+                    val options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                        holder.itemView.context as MainActivity,
+                        Pair<View, String>(holder.image,
+                            DetailsActivity.MAIN_IMAGE_TRANSITION),
+                        Pair<View, String>(holder.title,
+                            DetailsActivity.MAIN_TITLE_TRANSITION)
+                    )
+
+                    ActivityCompat.startActivity(holder.itemView.context, intent, options.toBundle())
 
                 }
             }
@@ -50,12 +69,10 @@ class Adapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     inner class DatamarxViewholder(v: View) : RecyclerView.ViewHolder(v) {
         var image: BaseImageView
         var title: TextView
-        var subTite: TextView
 
         init {
             image = v.findViewById(R.id.card_image)
             title = v.findViewById(R.id.card_title)
-            subTite = v.findViewById(R.id.card_subtitle)
         }
 
     }

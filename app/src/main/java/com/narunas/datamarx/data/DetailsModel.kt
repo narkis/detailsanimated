@@ -45,6 +45,7 @@ class DetailsModel: ViewModel() {
     companion object {
 
         val ContentData: MutableLiveData<ArrayList<SectionData>> = MutableLiveData()
+        val CardInDetail: MutableLiveData<CardData> = MutableLiveData()
 
     }
 

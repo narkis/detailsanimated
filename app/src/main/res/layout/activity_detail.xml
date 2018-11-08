@@ -2,12 +2,14 @@
 <android.support.constraint.ConstraintLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" xmlns:app="http://schemas.android.com/apk/res-auto">
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <com.narunas.datamarx.ui.BaseImageView
             android:id="@+id/main_image"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="420dp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -20,9 +22,9 @@
             android:textColor="@color/dark_grey"
             android:layout_marginTop="20dp"
             android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
             app:layout_constraintTop_toBottomOf="@+id/main_image"
             app:layout_constraintStart_toStartOf="parent"
-            android:text="@string/default_title"
     />
     <TextView
             android:id="@+id/sub_headline"
@@ -34,7 +36,6 @@
             android:layout_marginStart="20dp"
             app:layout_constraintTop_toBottomOf="@+id/main_headline"
             app:layout_constraintStart_toStartOf="parent"
-            android:text="@string/subtitle_title"
     />
     <TextView
             android:id="@+id/paragraph"

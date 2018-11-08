@@ -1,29 +1,54 @@
 package com.narunas.datamarx
 
 import android.os.Bundle
-import android.os.PersistableBundle
+import android.support.v4.view.ViewCompat
+import android.support.v4.view.animation.LinearOutSlowInInterpolator
 import android.support.v7.app.AppCompatActivity
 import android.transition.Transition
 import android.view.View
+import android.view.animation.BounceInterpolator
+import com.narunas.datamarx.data.CardData
+import com.narunas.datamarx.data.DetailsModel.Companion.CardInDetail
 import kotlinx.android.synthetic.main.activity_detail.*
+import kotlinx.android.synthetic.main.card.*
 
 class DetailsActivity: AppCompatActivity() {
 
     companion object {
         val MAIN_IMAGE_TRANSITION: String = "class:image:transition"
         val MAIN_TITLE_TRANSITION: String = "class:title:transition"
-        val MAIN_IMAGE_URL: String = "class:image:url"
     }
     private lateinit var transition: Transition
+    private lateinit var thumbUrl: String
     private lateinit var url: String
+    private lateinit var title: String
+    private var cardData: CardData? = null
 
-
-    override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
-        super.onCreate(savedInstanceState, persistentState)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail)
 
-        url = intent.getStringExtra(MAIN_IMAGE_URL)
-        addTransitionListener()
+        cardData = CardInDetail.value
+
+        if(cardData != null) {
+
+            ViewCompat.setTransitionName(main_image, MAIN_IMAGE_TRANSITION)
+            ViewCompat.setTransitionName(main_headline, MAIN_TITLE_TRANSITION)
+            transition = window.sharedElementEnterTransition
+            transition.interpolator = LinearOutSlowInInterpolator()
+            addTransitionListener()
+
+            title = cardData?.title!!
+            thumbUrl = cardData?.thumbUrl!!
+            url = cardData?.mainUrl!!
+
+
+//            loadThumbnail()
+            main_headline.text = title
+
+        } else {
+            /** handle data error **/
+        }
 
     }
 
@@ -49,6 +74,7 @@ class DetailsActivity: AppCompatActivity() {
             }
 
             override fun onTransitionStart(p0: Transition?) {
+                loadThumbnail()
             }
 
             override fun onTransitionEnd(p0: Transition?) {
@@ -61,7 +87,13 @@ class DetailsActivity: AppCompatActivity() {
 
     private fun loadFullImage() {
 
-        main_image.imageSource(url)
+        main_image.imageSource(url, false)
+
+    }
+
+    private fun loadThumbnail() {
+
+        main_image.imageSource(thumbUrl, false)
 
     }
 
