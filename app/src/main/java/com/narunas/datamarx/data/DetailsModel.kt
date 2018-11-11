@@ -5,8 +5,10 @@ import android.arch.lifecycle.ViewModel
 import android.util.Log
 import com.google.gson.Gson
 import java.io.BufferedReader
+import java.io.InputStream
 import java.io.InputStreamReader
 import java.net.HttpURLConnection
+import java.net.HttpURLConnection.*
 import java.net.URL
 import java.net.URLEncoder
 import kotlin.concurrent.thread
@@ -14,10 +16,7 @@ import kotlin.random.Random
 
 
 const val SECTION_CNT = 3
-const val HOST = "https://api.cognitive.microsoft.com"
-const val PATH = "/bing/v7.0/images/search"
-const val KEY1 = "8d7a2427dd15457cbf133ea4115be0c2"
-const val KEY2 = "2aca3d6368404258a0b57c13bc82bdc8"
+
 
 class DetailsModel: ViewModel() {
 
@@ -42,10 +41,17 @@ class DetailsModel: ViewModel() {
         Football
     }
 
+    private val HOST = "https://api.cognitive.microsoft.com"
+    private val PATH = "/bing/v7.0/images/search"
+    private val KEY1 = "8d7a2427dd15457cbf133ea4115be0c2"
+    private val KEY2 = "2aca3d6368404258a0b57c13bc82bdc8"
+
     companion object {
 
+        val TAG: String = DetailsModel::class.java.simpleName
         val ContentData: MutableLiveData<ArrayList<SectionData>> = MutableLiveData()
         val CardInDetail: MutableLiveData<CardData> = MutableLiveData()
+        val ErrorData: MutableLiveData<String> = MutableLiveData()
 
     }
 
@@ -62,6 +68,7 @@ class DetailsModel: ViewModel() {
                 if(section != null) {
                     data.add(section)
                 }
+
             }
 
             ContentData.postValue(data)
@@ -69,7 +76,7 @@ class DetailsModel: ViewModel() {
 
     }
 
-    private fun fetchRandomSearchTerm() : String {
+    fun fetchRandomSearchTerm() : String {
 
         val ret: String
         val index = Random.nextInt(0, SEARCH_TERMS.values().size)
@@ -77,7 +84,7 @@ class DetailsModel: ViewModel() {
         return ret
     }
 
-    private fun sendRequest(searchTerm: String) : SectionData? {
+    fun sendRequest(searchTerm: String) : SectionData? {
 
         var section: SectionData? = null
         val reqParam = URLEncoder.encode(searchTerm, "UTF-8")
@@ -86,8 +93,21 @@ class DetailsModel: ViewModel() {
         with(mURL.openConnection() as HttpURLConnection) {
 
             setRequestProperty("Ocp-Apim-Subscription-Key", KEY1)
+            connectTimeout = 6000
+
+            when (responseCode) {
+                HTTP_OK -> {
+
+                } else -> {
+
+                    ErrorData.postValue(errorStream.read().toString())
+                    return null
+                }
+            }
+
 
             BufferedReader(InputStreamReader(inputStream)).use {
+
 
                 val response = StringBuffer()
                 var inputLine = it.readLine()
@@ -101,6 +121,15 @@ class DetailsModel: ViewModel() {
                 section?.title = searchTerm
 
                 it.close()
+
+            }
+
+            disconnect()
+
+            if (section == null) {
+
+                val error = "section for $searchTerm is not available"
+                ErrorData.postValue(error)
 
             }
 
